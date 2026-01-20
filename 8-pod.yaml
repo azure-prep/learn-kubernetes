@@ -1,15 +1,21 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: pod-resources-demo
+  name: memory-hog
 spec:
-  containers:
-    - name: nginx
-      image: nginx
-      resources:
-        limits:
-          cpu: "0.5"
-          memory: "5000Mi"
-        requests:
-          cpu: "0.5"
-          memory: "5000Mi"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: memory-hog
+  template:
+    metadata:
+      labels:
+        app: memory-hog
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            requests:
+              cpu: "1"
+              memory: "6Gi"
