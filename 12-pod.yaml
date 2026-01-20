@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hpa-test
+  name: vpa-test
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: hpa
@@ -24,21 +24,20 @@ spec:
               memory: "128Mi"
               cpu: "500m"
 ---
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
+apiVersion: "autoscaling.k8s.io/v1"
+kind: VerticalPodAutoscaler
 metadata:
-  name: hpa-test
+  name: vpa-test
 spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
+  targetRef:
+    apiVersion: "apps/v1"
     kind: Deployment
-    name: hpa-test
-  minReplicas: 1
-  maxReplicas: 4
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 50
+    name: vpa-test
+  resourcePolicy:
+    containerPolicies:
+      - containerName: '*'
+        minAllowed:
+          cpu: 500m
+        maxAllowed:
+          cpu: 600m
+        controlledResources: ["cpu"]
