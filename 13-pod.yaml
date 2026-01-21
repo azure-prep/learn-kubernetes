@@ -5,7 +5,10 @@ metadata:
   labels:
     env: test
 spec:
+  nodeSelector:
+    project: "roboshop"
   containers:
     - name: nginx
       image: nginx
       imagePullPolicy: IfNotPresent
+
