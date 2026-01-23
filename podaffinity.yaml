@@ -6,7 +6,7 @@ metadata:
     security: S1
 spec:
   nodeSelector:
-    choice: one
+    choice: 1
   containers:
     - name: nginx
       image: nginx
@@ -19,7 +19,7 @@ metadata:
     security: S2
 spec:
   nodeSelector:
-    choice: two
+    choice: 2
   containers:
     - name: nginx
       image: nginx
